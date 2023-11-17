@@ -1,12 +1,21 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div class="nav">
+    <router-link to="/" class="navIcon">Home</router-link>
+    <router-link to="/redir" class="navIcon">Redirected</router-link>
+    <router-link to="/page2" class="navIcon">Page 2</router-link>
+    <router-link to="/form" class="navIcon">Form</router-link>
+  </div>
+  <router-view />
 </template>
+<script lang="ts">
+import { defineComponent } from "vue";
 
-<style>
+export default defineComponent({
+  name: "App",
+});
+</script>
+
+<style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -15,16 +24,18 @@
   color: #2c3e50;
 }
 
-nav {
-  padding: 30px;
+.nav {
+  width: 100%;
+  height: 50px;
+  background-color: black;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+.navIcon {
+  color: white;
+  text-decoration: none;
+  padding-left: 20px;
 }
 </style>
