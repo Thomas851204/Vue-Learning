@@ -32,6 +32,9 @@ export default defineComponent({
 });
 </script>
 <style scoped>
+.body {
+  padding-left: 10px;
+}
 h1 {
   color: red;
 }
