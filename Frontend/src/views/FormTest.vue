@@ -30,6 +30,8 @@
         <input type="text" autocomplete="off" name="oinput" v-model="oinput" />
         <input type="submit" />
       </form>
+      <button @click="showAll">Show all inputs</button>
+      <button @click="result = null">Clear</button>
     </div>
     <div v-if="result">{{ result }}</div>
   </div>
@@ -65,6 +67,9 @@ export default defineComponent({
           (this.oinput && data.input === this.oinput)
       );
       this.result = found ? JSON.stringify(found) : "No match";
+    },
+    showAll() {
+      this.result = JSON.stringify(this.mockData);
     },
   },
 });

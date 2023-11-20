@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Redirected from "../views/Redirected.vue";
-import Page2 from "../views/Page2.vue";
 import Home from "../views/Home.vue";
 import FormTest from "../views/FormTest.vue";
+import HTTPcall from "@/views/HTTPcall.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -16,9 +16,9 @@ const routes: Array<RouteRecordRaw> = [
     component: Redirected,
   },
   {
-    path: "/page2",
-    name: "Page2",
-    component: Page2,
+    path: "/http",
+    name: "HTTPcall",
+    component: HTTPcall,
   },
   {
     path: "/form",

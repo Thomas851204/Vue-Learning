@@ -3,10 +3,10 @@
     <h1>{{ title }}</h1>
     <input type="text" ref="name" />
     <button @click="handleClick">Click me</button>
-
     <Test v-if="testVisible" />
   </div>
 </template>
+
 <script lang="ts">
 import { defineComponent } from "vue";
 import Test from "../components/Test.vue";
@@ -31,6 +31,7 @@ export default defineComponent({
   },
 });
 </script>
+
 <style scoped>
 .body {
   padding-left: 10px;

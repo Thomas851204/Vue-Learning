@@ -3,6 +3,7 @@
     <h1>{{ redir }}</h1>
   </div>
 </template>
+
 <script lang="ts">
 import { DefineComponent, defineComponent } from "vue";
 export default defineComponent({
@@ -14,6 +15,7 @@ export default defineComponent({
   },
 });
 </script>
+
 <style scoped>
 .body {
   background: black;
