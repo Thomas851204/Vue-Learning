@@ -1,2 +1,2 @@
-# Vue-Spring-Learning
-Small project for learning Vue.JS/Spring Boot
+# Vue--Learning
+Small project for learning Vue.JS
