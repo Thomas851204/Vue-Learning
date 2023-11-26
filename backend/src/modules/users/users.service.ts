@@ -18,16 +18,16 @@ export class UserService {
     return this.usersRepository.find();
   }
 
-  async postEntry(userData: UserDto): Promise<boolean> {
+  async postEntry(userData: UserDto): Promise<number> {
     const newUser = this.usersRepository.create({
       username: userData.username,
       email: userData.email,
     });
     try {
       await this.usersRepository.save(newUser);
-      return true;
+      return 1;
     } catch (err) {
-      return err;
+      return -1;
     }
   }
 }

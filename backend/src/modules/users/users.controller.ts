@@ -25,8 +25,9 @@ export class UsersController {
   }
 
   @Post('postUser')
-  async postUser(@Body() userData: UserDto): Promise<boolean> {
+  async postUser(@Body() userData: UserDto): Promise<number> {
     const postResp = await this.userService.postEntry(userData);
+    console.log(postResp);
     return postResp;
   }
 }

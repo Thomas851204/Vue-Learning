@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Redirected from "../views/Redirected.vue";
 import Home from "../views/Home.vue";
 import FormTest from "../views/FormTest.vue";
-import HTTPcall from "@/views/HTTPcall.vue";
+import HTTPcall from "@/views/HTTPcall/HTTPcall.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
