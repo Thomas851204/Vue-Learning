@@ -7,6 +7,9 @@
     <div class="post">
       <HTTPPost />
     </div>
+    <div class="patch">
+      <HTTPPatch />
+    </div>
   </div>
 </template>
 
@@ -15,6 +18,7 @@ import axios from "axios";
 import { defineComponent } from "vue";
 import HTTPGet from "@/views/HTTPcall/child/HTTPGet.vue";
 import HTTPPost from "@/views/HTTPcall/child/HTTPPost.vue";
+import HTTPPatch from "@/views/HTTPcall/child/HTTPPatch.vue";
 
 export default defineComponent({
   name: "HTTPcall",
@@ -23,7 +27,7 @@ export default defineComponent({
       redir: "HTTP call testing",
     };
   },
-  components: { HTTPGet, HTTPPost },
+  components: { HTTPGet, HTTPPost, HTTPPatch },
 });
 </script>
 

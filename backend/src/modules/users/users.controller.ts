@@ -11,6 +11,7 @@ import {
   Req,
   UseGuards,
   Param,
+  Patch,
 } from '@nestjs/common';
 import { UserService } from './users.service';
 import { UserDto } from './models/UserDto';
@@ -29,5 +30,12 @@ export class UsersController {
     const postResp = await this.userService.postEntry(userData);
     console.log(postResp);
     return postResp;
+  }
+
+  @Patch('patch')
+  async patchUser(@Body() patchUserData: UserDto): Promise<boolean> {
+    const patchResp = await this.userService.patchEntry(patchUserData);
+    console.log(patchResp);
+    return patchResp;
   }
 }

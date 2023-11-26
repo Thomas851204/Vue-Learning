@@ -30,4 +30,14 @@ export class UserService {
       return -1;
     }
   }
+
+  async patchEntry(user: UserDto): Promise<boolean> {
+    const userToUpdate = await this.usersRepository.findOne({
+      where: { id: user.id },
+    });
+    userToUpdate.email = user.email;
+    userToUpdate.username = user.username;
+    await this.usersRepository.save(userToUpdate);
+    return true;
+  }
 }
