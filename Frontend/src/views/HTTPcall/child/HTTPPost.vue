@@ -23,8 +23,7 @@
     />
     <!-- <span v-if="!isValidEmail">Enter a valid email address</span> -->
     <input type="submit" value="Post Data" />
-    <div v-if="postResp === 1">New user entered</div>
-    <div v-else-if="postResp === -1">User already exists</div>
+    <div v-if="postResp.message !== ''">{{ postResp.message }}</div>
   </form>
 </template>
 
@@ -40,7 +39,7 @@ export default defineComponent({
       username: "",
       email: "",
       devurl: new FEenv(),
-      postResp: 0,
+      postResp: { message: "" } as { message: string },
     };
   },
   // TOFIX
@@ -66,9 +65,8 @@ export default defineComponent({
       ).data;
       this.email = "";
       this.username = "";
-      console.log(this.postResp);
       setTimeout(() => {
-        this.postResp = 0;
+        this.postResp = { message: "" };
       }, 5000);
     },
   },

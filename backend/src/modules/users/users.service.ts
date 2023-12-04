@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from 'src/database/entities/Users.entity';
 import { Repository } from 'typeorm';
 import { UserDto } from './models/UserDto';
+import { QueryFailedError } from 'typeorm';
 
 @Injectable()
 export class UserService {
@@ -18,26 +19,44 @@ export class UserService {
     return this.usersRepository.find();
   }
 
-  async postEntry(userData: UserDto): Promise<number> {
+  async postEntry(userData: UserDto): Promise<{ message: string }> {
     const newUser = this.usersRepository.create({
       username: userData.username,
       email: userData.email,
     });
     try {
       await this.usersRepository.save(newUser);
-      return 1;
+      return { message: 'User created' };
     } catch (err) {
-      return -1;
+      if (
+        err instanceof QueryFailedError &&
+        err.message.includes('ER_DUP_ENTRY')
+      ) {
+        return { message: 'Username/email already taken' };
+      } else {
+        return { message: err };
+      }
     }
   }
 
-  async patchEntry(user: UserDto): Promise<boolean> {
+  async patchEntry(user: UserDto): Promise<{ message: string }> {
     const userToUpdate = await this.usersRepository.findOne({
       where: { id: user.id },
     });
     userToUpdate.email = user.email;
     userToUpdate.username = user.username;
-    await this.usersRepository.save(userToUpdate);
-    return true;
+    try {
+      await this.usersRepository.save(userToUpdate);
+      return { message: 'Username/email changed' };
+    } catch (err) {
+      if (
+        err instanceof QueryFailedError &&
+        err.message.includes('ER_DUP_ENTRY')
+      ) {
+        return { message: 'Username/email already taken' };
+      } else {
+        return { message: err };
+      }
+    }
   }
 }

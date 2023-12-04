@@ -7,13 +7,18 @@
       </button>
     </div>
   </div>
-  <form v-if="selectedUser" @submit.prevent="submitForm">
-    <label for="username">Username</label>
-    <input v-model="selectedUser.username" />
-    <label for="email">Email</label>
-    <input v-model="selectedUser.email" />
-    <button type="submit">Submit</button>
-  </form>
+  <div>
+    <form v-if="selectedUser" @submit.prevent="submitForm">
+      <label for="username">Username</label>
+      <input v-model="selectedUser.username" />
+      <label for="email">Email</label>
+      <input v-model="selectedUser.email" />
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <div v-if="message">
+    <h4>{{ message }}</h4>
+  </div>
 </template>
 
 <script lang="ts">
@@ -29,6 +34,7 @@ export default defineComponent({
       usersList: [] as UserInterface[],
       devurl: new FEenv(),
       selectedUser: null as UserInterface | null,
+      message: "",
     };
   },
   methods: {
@@ -43,12 +49,17 @@ export default defineComponent({
     async submitForm() {
       if (this.selectedUser) {
         const userId = this.selectedUser.id;
-        const response = await axios.patch(
-          this.devurl.devbaseurl + "users/patch",
-          this.selectedUser
-        );
+        this.message = (
+          await axios.patch(
+            this.devurl.devbaseurl + "users/patch",
+            this.selectedUser
+          )
+        ).data.message;
         this.selectedUser = null;
         this.getList();
+        setTimeout(() => {
+          this.message = "";
+        }, 5000);
       }
     },
   },

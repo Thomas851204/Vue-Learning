@@ -15,6 +15,8 @@ import {
 } from '@nestjs/common';
 import { UserService } from './users.service';
 import { UserDto } from './models/UserDto';
+import { response } from 'express';
+import { QueryFailedError } from 'typeorm';
 
 @Controller('users')
 export class UsersController {
@@ -26,16 +28,18 @@ export class UsersController {
   }
 
   @Post('postUser')
-  async postUser(@Body() userData: UserDto): Promise<number> {
+  async postUser(
+    @Body() userData: UserDto,
+  ): Promise<number | { message: string }> {
     const postResp = await this.userService.postEntry(userData);
-    console.log(postResp);
     return postResp;
   }
 
   @Patch('patch')
-  async patchUser(@Body() patchUserData: UserDto): Promise<boolean> {
+  async patchUser(
+    @Body() patchUserData: UserDto,
+  ): Promise<{ message: string }> {
     const patchResp = await this.userService.patchEntry(patchUserData);
-    console.log(patchResp);
     return patchResp;
   }
 }
