@@ -3,6 +3,7 @@ import Redirected from "../views/Redirected.vue";
 import Home from "../views/Home.vue";
 import FormTest from "../views/FormTest.vue";
 import HTTPcall from "@/views/HTTPcall/HTTPcall.vue";
+import MineSweepVue from "@/views/MineSweep.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -24,6 +25,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/form",
     name: "FormTest",
     component: FormTest,
+  },
+  {
+    path: "/mine",
+    name: "MineSweeper",
+    component: MineSweepVue,
   },
 ];
 

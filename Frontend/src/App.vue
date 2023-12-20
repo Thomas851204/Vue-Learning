@@ -4,6 +4,7 @@
     <router-link to="/redir" class="navIcon">Redirected</router-link>
     <router-link to="/http" class="navIcon">HTTP test</router-link>
     <router-link to="/form" class="navIcon">Form</router-link>
+    <router-link to="/mine" class="navIcon">Minesweeper</router-link>
   </div>
   <router-view />
 </template>
