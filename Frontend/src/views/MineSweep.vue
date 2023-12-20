@@ -3,13 +3,14 @@
     <h1>{{ redir }}</h1>
     <button class="generate" @click.="mineGen">Generate field!</button>
     <div class="mineGrid" v-if="mineGrid">
+      <div>Mines:{{ minesCount }}</div>
       <div class="row" v-for="(row, rowIndex) in mineGrid" :key="rowIndex">
         <div class="cell" v-for="(cell, cellIndex) in row" :key="cellIndex">
           <button
             class="cell"
             @contextmenu.prevent
             @click.left="reveal(rowIndex, cellIndex)"
-            @mousedown.right="flag(rowIndex, cellIndex)"
+            @click.right="flag(rowIndex, cellIndex)"
             :disabled="cell.disabled"
             :style="{
               color: cell.revealed ? getNumberColor(cell.value) : '#000000',
@@ -17,7 +18,7 @@
                 ? 'red'
                 : cell.revealed
                 ? getNumberColor(cell.value)
-                : '#bfbfbf',
+                : '#979797',
             }"
             :class="{ 'disabled-style': cell.disabled }"
           >
@@ -38,13 +39,43 @@ export default defineComponent({
   data() {
     return {
       redir: "Minesweeper game",
-      mineGrid: [] as any[][],
+      mineGrid: Array<
+        Array<{
+          revealed: boolean;
+          value: any;
+          flagged: boolean;
+          disabled: boolean;
+        }>
+      >([]),
     };
+  },
+  computed: {
+    minesCount() {
+      if (!this.mineGrid.length) {
+        return 40;
+      }
+
+      let flaggedCount = 0;
+      for (let row = 0; row < this.mineGrid.length; row++) {
+        for (let col = 0; col < this.mineGrid[row].length; col++) {
+          if (this.mineGrid[row][col].flagged) {
+            flaggedCount++;
+          }
+        }
+      }
+
+      return 40 - flaggedCount;
+    },
   },
   methods: {
     mineGen() {
       this.mineGrid = Array.from({ length: 14 }, () =>
-        Array.from({ length: 18 }, () => ({ revealed: false, value: "" }))
+        Array.from({ length: 18 }, () => ({
+          revealed: false,
+          value: "",
+          flagged: false,
+          disabled: false,
+        }))
       );
       let minesPlaced = 0;
       while (minesPlaced < 40) {
@@ -88,8 +119,36 @@ export default defineComponent({
       return this.mineGrid;
     },
     reveal(r: number, c: number) {
-      this.mineGrid[r][c].revealed = true;
-      this.mineGrid[r][c].disabled = true;
+      const cell = this.mineGrid[r][c];
+
+      if (!cell.flagged) {
+        if (cell.value === "x") {
+          this.mineGrid.forEach((row) =>
+            row.forEach((cell) => {
+              (cell.revealed = true), (cell.disabled = true);
+            })
+          );
+        } else if (cell.value === "") {
+          for (let i = -1; i <= 1; i++) {
+            for (let j = -1; j <= 1; j++) {
+              const newRow = r + i;
+              const newCol = c + j;
+              if (
+                newRow >= 0 &&
+                newRow < this.mineGrid.length &&
+                newCol >= 0 &&
+                newCol < this.mineGrid[0].length
+              ) {
+                this.mineGrid[newRow][newCol].revealed = true;
+                this.mineGrid[newRow][newCol].disabled = true;
+              }
+            }
+          }
+        } else {
+          cell.revealed = true;
+          cell.disabled = true;
+        }
+      }
     },
     flag(r: number, c: number) {
       this.mineGrid[r][c].flagged = !this.mineGrid[r][c].flagged;
@@ -141,7 +200,7 @@ button.cell {
   background-color: #979797;
 }
 button:active {
-  background-color: #494949;
+  background-color: #4b4b4b !important;
 }
 button.cell:disabled {
   pointer-events: none;
