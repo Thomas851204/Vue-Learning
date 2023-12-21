@@ -2,37 +2,41 @@
   <div class="body">
     <h1>{{ redir }}</h1>
     <button class="generate" @click.="mineGen">Generate field!</button>
+    <button class="clear" @click="mineGrid = []">Clear field</button>
     <div class="mineGrid" v-if="mineGrid.length > 1">
-      <div class="nav">
-        <div>Mines:{{ minesCount }}</div>
-        <div class="winLoss" v-if="won">Congrats!</div>
-        <div class="winLoss" v-if="lost">Better luck next time!</div>
-        <div>{{ timeElapsed }}</div>
-      </div>
-      <div class="row" v-for="(row, rowIndex) in mineGrid" :key="rowIndex">
-        <div class="cell" v-for="(cell, cellIndex) in row" :key="cellIndex">
-          <button
-            class="cell"
-            @contextmenu.prevent
-            @click.left="reveal(rowIndex, cellIndex)"
-            @click.right="flag(rowIndex, cellIndex)"
-            :disabled="cell.disabled"
-            :style="{
-              color: cell.revealed ? getNumberColor(cell.value) : '#000000',
-              backgroundColor: cell.flagged
-                ? 'red'
-                : cell.revealed
-                ? getNumberColor(cell.value)
-                : '#979797',
-            }"
-            :class="{ 'disabled-style': cell.disabled }"
-          >
-            {{ cell.revealed ? cell.value : "" }}
-          </button>
+      <div class="contentWrap">
+        <div class="nav">
+          <div>Mines:{{ minesCount }}</div>
+          <div class="winLoss" v-if="won">Congrats!</div>
+          <div class="winLoss" v-if="lost">Better luck next time!</div>
+          <div>Time: {{ timeElapsed }}</div>
+        </div>
+        <div class="fieldWrap">
+          <div class="row" v-for="(row, rowIndex) in mineGrid" :key="rowIndex">
+            <div class="cell" v-for="(cell, cellIndex) in row" :key="cellIndex">
+              <button
+                class="cell"
+                @contextmenu.prevent
+                @click.left="reveal(rowIndex, cellIndex)"
+                @click.right="flag(rowIndex, cellIndex)"
+                :disabled="cell.disabled"
+                :style="{
+                  color: cell.revealed ? getNumberColor(cell.value) : '#000000',
+                  backgroundColor: cell.flagged
+                    ? 'red'
+                    : cell.revealed
+                    ? getNumberColor(cell.value)
+                    : '#979797',
+                }"
+                :class="{ 'disabled-style': cell.disabled }"
+              >
+                {{ cell.revealed ? cell.value : "" }}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <button class="clear" @click="mineGrid = []">Clear field</button>
   </div>
 </template>
 
@@ -254,11 +258,27 @@ export default defineComponent({
 button {
   display: block;
 }
+div.mineGrid {
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  height: 400px;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
 .nav {
   display: flex;
   justify-content: space-between;
   max-width: 360px;
   margin-right: 10px;
+  margin-bottom: 10px;
+}
+.fieldWrap {
+  width: 360px;
+  border: 2px solid #343434;
 }
 .row {
   display: flex;
