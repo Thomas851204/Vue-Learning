@@ -43,6 +43,7 @@ export default defineComponent({
   name: "MineSweeper",
   data() {
     return {
+      firstClick: true,
       won: false,
       lost: false,
       redir: "Minesweeper game",
@@ -127,8 +128,9 @@ export default defineComponent({
           }
         }
       }
+      this.firstClick = true;
+      clearInterval(this.timerInterval);
       this.timer = 0;
-      this.startTimer();
       return this.mineGrid;
     },
     fieldGen() {
@@ -174,7 +176,10 @@ export default defineComponent({
     },
     reveal(r: number, c: number) {
       const cell = this.mineGrid[r][c];
-
+      if (this.firstClick) {
+        this.startTimer();
+        this.firstClick = false;
+      }
       if (!cell.flagged) {
         if (cell.value === "x") {
           this.mineGrid.forEach((row) =>
