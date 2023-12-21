@@ -2,8 +2,13 @@
   <div class="body">
     <h1>{{ redir }}</h1>
     <button class="generate" @click.="mineGen">Generate field!</button>
-    <div class="mineGrid" v-if="mineGrid">
-      <div>Mines:{{ minesCount }}</div>
+    <div class="mineGrid" v-if="mineGrid.length">
+      <div class="nav">
+        <div>Mines:{{ minesCount }}</div>
+        <div class="winLoss" v-if="won">Congrats!</div>
+        <div class="winLoss" v-if="lost">Better luck next time!</div>
+        <div>{{}}</div>
+      </div>
       <div class="row" v-for="(row, rowIndex) in mineGrid" :key="rowIndex">
         <div class="cell" v-for="(cell, cellIndex) in row" :key="cellIndex">
           <button
@@ -38,6 +43,8 @@ export default defineComponent({
   name: "MineSweeper",
   data() {
     return {
+      won: false,
+      lost: false,
       redir: "Minesweeper game",
       mineGrid: Array<
         Array<{
@@ -66,9 +73,50 @@ export default defineComponent({
 
       return 40 - flaggedCount;
     },
+    winCond(): boolean {
+      let nonMineRevealedCount = 0;
+      for (let row = 0; row < this.mineGrid.length; row++) {
+        for (let col = 0; col < this.mineGrid[row].length; col++) {
+          if (
+            this.mineGrid[row][col].value !== "x" &&
+            this.mineGrid[row][col].revealed
+          ) {
+            nonMineRevealedCount++;
+          }
+        }
+      }
+      return nonMineRevealedCount === 212 && !this.lossCond;
+    },
+    lossCond(): boolean {
+      for (let row = 0; row < this.mineGrid.length; row++) {
+        for (let col = 0; col < this.mineGrid[row].length; col++) {
+          if (!this.mineGrid[row][col].revealed) {
+            return false;
+          }
+        }
+      }
+      return true;
+    },
   },
   methods: {
     mineGen() {
+      this.won = false;
+      this.lost = false;
+      this.fieldGen();
+      this.placeMines();
+      for (let row = 0; row < this.mineGrid.length; row++) {
+        for (let column = 0; column < this.mineGrid[row].length; column++) {
+          if (
+            this.mineGrid[row][column].value !== "x" &&
+            this.calcAdj(row, column) !== 0
+          ) {
+            this.mineGrid[row][column].value = this.calcAdj(row, column);
+          }
+        }
+      }
+      return this.mineGrid;
+    },
+    fieldGen() {
       this.mineGrid = Array.from({ length: 14 }, () =>
         Array.from({ length: 18 }, () => ({
           revealed: false,
@@ -77,6 +125,8 @@ export default defineComponent({
           disabled: false,
         }))
       );
+    },
+    placeMines() {
       let minesPlaced = 0;
       while (minesPlaced < 40) {
         const randRow = Math.floor(Math.random() * 14);
@@ -86,37 +136,26 @@ export default defineComponent({
           minesPlaced++;
         }
       }
-      const calcAdj = (r: number, c: number) => {
-        let count = 0;
-        for (let i = -1; i <= 1; i++) {
-          for (let j = -1; j <= 1; j++) {
-            const newRow = r + i;
-            const newCol = c + j;
+    },
+    calcAdj(r: number, c: number) {
+      let count = 0;
+      for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+          const newRow = r + i;
+          const newCol = c + j;
 
-            if (
-              newRow >= 0 &&
-              newRow < 14 &&
-              newCol >= 0 &&
-              newCol < 18 &&
-              this.mineGrid[newRow][newCol].value === "x"
-            ) {
-              count++;
-            }
-          }
-        }
-        return count;
-      };
-      for (let row = 0; row < this.mineGrid.length; row++) {
-        for (let column = 0; column < this.mineGrid[row].length; column++) {
           if (
-            this.mineGrid[row][column].value !== "x" &&
-            calcAdj(row, column) !== 0
+            newRow >= 0 &&
+            newRow < 14 &&
+            newCol >= 0 &&
+            newCol < 18 &&
+            this.mineGrid[newRow][newCol].value === "x"
           ) {
-            this.mineGrid[row][column].value = calcAdj(row, column);
+            count++;
           }
         }
       }
-      return this.mineGrid;
+      return count;
     },
     reveal(r: number, c: number) {
       const cell = this.mineGrid[r][c];
@@ -148,6 +187,12 @@ export default defineComponent({
           cell.revealed = true;
           cell.disabled = true;
         }
+      }
+      if (this.winCond) {
+        this.won = true;
+      }
+      if (this.lossCond) {
+        this.lost = true;
       }
     },
     flag(r: number, c: number) {
