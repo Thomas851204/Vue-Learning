@@ -2,12 +2,12 @@
   <div class="body">
     <h1>{{ redir }}</h1>
     <button class="generate" @click.="mineGen">Generate field!</button>
-    <div class="mineGrid" v-if="mineGrid.length">
+    <div class="mineGrid" v-if="mineGrid.length > 1">
       <div class="nav">
         <div>Mines:{{ minesCount }}</div>
         <div class="winLoss" v-if="won">Congrats!</div>
         <div class="winLoss" v-if="lost">Better luck next time!</div>
-        <div>{{}}</div>
+        <div>{{ timeElapsed }}</div>
       </div>
       <div class="row" v-for="(row, rowIndex) in mineGrid" :key="rowIndex">
         <div class="cell" v-for="(cell, cellIndex) in row" :key="cellIndex">
@@ -54,6 +54,8 @@ export default defineComponent({
           disabled: boolean;
         }>
       >([]),
+      timer: 0,
+      timerInterval: null as any,
     };
   },
   computed: {
@@ -97,8 +99,19 @@ export default defineComponent({
       }
       return true;
     },
+    timeElapsed(): string {
+      const minutes = Math.floor(this.timer / 60);
+      const seconds = this.timer % 60;
+      return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    },
   },
   methods: {
+    startTimer() {
+      clearInterval(this.timerInterval);
+      this.timerInterval = setInterval(() => {
+        this.timer++;
+      }, 1000);
+    },
     mineGen() {
       this.won = false;
       this.lost = false;
@@ -114,6 +127,8 @@ export default defineComponent({
           }
         }
       }
+      this.timer = 0;
+      this.startTimer();
       return this.mineGrid;
     },
     fieldGen() {
@@ -190,9 +205,11 @@ export default defineComponent({
       }
       if (this.winCond) {
         this.won = true;
+        clearInterval(this.timerInterval);
       }
       if (this.lossCond) {
         this.lost = true;
+        clearInterval(this.timerInterval);
       }
     },
     flag(r: number, c: number) {
@@ -228,6 +245,15 @@ export default defineComponent({
 .body {
   height: 100vh;
   margin-left: 10px;
+}
+button {
+  display: block;
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+  max-width: 360px;
+  margin-right: 10px;
 }
 .row {
   display: flex;
