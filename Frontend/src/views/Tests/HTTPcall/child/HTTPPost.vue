@@ -10,9 +10,6 @@
       required
       maxlength="10"
     />
-    <!-- <span v-if="!isValidUsername"
-            >Username is required and must be at most 10 characters</span
-          > -->
     <label for="email">Email</label>
     <input
       type="email"
@@ -21,7 +18,6 @@
       v-model="email"
       required
     />
-    <!-- <span v-if="!isValidEmail">Enter a valid email address</span> -->
     <input type="submit" value="Post Data" />
     <div v-if="postResp.message !== ''">{{ postResp.message }}</div>
   </form>
