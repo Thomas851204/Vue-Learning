@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Redirected from "../views/Redirected.vue";
+import RedirectedVue from "@/views/Tests/Redirected.vue";
 import Home from "../views/Home.vue";
-import FormTest from "../views/FormTest.vue";
-import HTTPcall from "@/views/HTTPcall/HTTPcall.vue";
+import FormTestVue from "@/views/Tests/FormTest.vue";
 import MineSweepVue from "@/views/MineSweep.vue";
+import HTTPcallVue from "@/views/Tests/HTTPcall/HTTPcall.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -14,17 +14,17 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/redir",
     name: "Redirected",
-    component: Redirected,
+    component: RedirectedVue,
   },
   {
     path: "/http",
     name: "HTTPcall",
-    component: HTTPcall,
+    component: HTTPcallVue,
   },
   {
     path: "/form",
     name: "FormTest",
-    component: FormTest,
+    component: FormTestVue,
   },
   {
     path: "/mine",

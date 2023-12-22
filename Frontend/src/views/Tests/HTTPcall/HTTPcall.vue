@@ -14,11 +14,10 @@
 </template>
 
 <script lang="ts">
-import axios from "axios";
 import { defineComponent } from "vue";
-import HTTPGet from "@/views/HTTPcall/child/HTTPGet.vue";
-import HTTPPost from "@/views/HTTPcall/child/HTTPPost.vue";
-import HTTPPatch from "@/views/HTTPcall/child/HTTPPatch.vue";
+import HTTPGet from "./child/HTTPGet.vue";
+import HTTPPost from "./child/HTTPPost.vue";
+import HTTPPatch from "./child/HTTPPatch.vue";
 
 export default defineComponent({
   name: "HTTPcall",

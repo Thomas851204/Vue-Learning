@@ -186,27 +186,9 @@ export default defineComponent({
       }
       if (!cell.flagged) {
         if (cell.value === "x") {
-          this.mineGrid.forEach((row) =>
-            row.forEach((cell) => {
-              (cell.revealed = true), (cell.disabled = true);
-            })
-          );
+          this.revealAllMines();
         } else if (cell.value === "") {
-          for (let i = -1; i <= 1; i++) {
-            for (let j = -1; j <= 1; j++) {
-              const newRow = r + i;
-              const newCol = c + j;
-              if (
-                newRow >= 0 &&
-                newRow < this.mineGrid.length &&
-                newCol >= 0 &&
-                newCol < this.mineGrid[0].length
-              ) {
-                this.mineGrid[newRow][newCol].revealed = true;
-                this.mineGrid[newRow][newCol].disabled = true;
-              }
-            }
-          }
+          this.revealAdjacent(r, c);
         } else {
           cell.revealed = true;
           cell.disabled = true;
@@ -219,6 +201,39 @@ export default defineComponent({
       if (this.lossCond) {
         this.lost = true;
         clearInterval(this.timerInterval);
+      }
+    },
+    revealAllMines() {
+      this.mineGrid.forEach((row) =>
+        row.forEach((cell) => {
+          (cell.revealed = true), (cell.disabled = true);
+        })
+      );
+    },
+    revealAdjacent(r: number, c: number) {
+      const cell = this.mineGrid[r][c];
+      if (!cell.revealed) {
+        if (cell.value === "") {
+          cell.revealed = true;
+          cell.disabled = true;
+          for (let i = -1; i <= 1; i++) {
+            for (let j = -1; j <= 1; j++) {
+              const newRow = r + i;
+              const newCol = c + j;
+              if (
+                newRow >= 0 &&
+                newRow < this.mineGrid.length &&
+                newCol >= 0 &&
+                newCol < this.mineGrid[0].length
+              ) {
+                this.revealAdjacent(newRow, newCol);
+              }
+            }
+          }
+        } else {
+          cell.revealed = true;
+          cell.disabled = true;
+        }
       }
     },
     flag(r: number, c: number) {
