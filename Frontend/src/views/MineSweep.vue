@@ -1,38 +1,49 @@
 <template>
   <div class="body">
     <h1>{{ redir }}</h1>
-    <button class="generate" @click.="mineGen">Generate field!</button>
-    <button class="clear" @click="mineGrid = []">Clear field</button>
-    <div class="mineGrid" v-if="mineGrid.length > 1">
-      <div class="contentWrap">
-        <div class="nav">
-          <div>Mines:{{ minesCount }}</div>
-          <div class="winLoss" v-if="won">Congrats!</div>
-          <div class="winLoss" v-if="lost">Better luck next time!</div>
-          <div>Time: {{ timeElapsed }}</div>
-        </div>
-        <div class="fieldWrap">
-          <div class="row" v-for="(row, rowIndex) in mineGrid" :key="rowIndex">
-            <div class="cell" v-for="(cell, cellIndex) in row" :key="cellIndex">
-              <button
-                class="cell"
-                @contextmenu.prevent
-                @click.left="reveal(rowIndex, cellIndex)"
-                @click.right="flag(rowIndex, cellIndex)"
-                :disabled="cell.disabled"
-                :style="{
-                  color: cell.revealed ? getNumberColor(cell.value) : '#000000',
-                  backgroundColor: cell.flagged
-                    ? 'red'
-                    : cell.revealed
-                    ? getNumberColor(cell.value)
-                    : '#979797',
-                }"
-                :class="{ 'disabled-style': cell.disabled }"
-              >
-                {{ cell.revealed ? cell.value : "" }}
-              </button>
-            </div>
+    <p>Options:</p>
+    <div class="inputSlide">
+      <label :for="rowSlideId">Rows: {{ rowSlideValue }}</label>
+      <input
+        :id="rowSlideId"
+        type="range"
+        min="5"
+        max="35"
+        class="slider"
+        v-model="rowSlideValue"
+      />
+      <label :for="colSlideId">Columns: {{ colSlideValue }}</label>
+      <input
+        :id="colSlideId"
+        type="range"
+        min="5"
+        max="35"
+        v-model="colSlideValue"
+        class="slider"
+      />
+      <label :for="mineSlideId">Mines(%): {{ mineSlideValue }}</label>
+      <input
+        :id="mineSlideId"
+        type="range"
+        min="5"
+        max="35"
+        v-model="mineSlideValue"
+        class="slider"
+      />
+      <button
+        class="generate"
+        @click="
+          mineGrid.updateBasics(mineSlideValue, rowSlideValue, colSlideValue)
+        "
+      >
+        Generate field!
+      </button>
+    </div>
+    <div class="mineGrid">
+      <div class="fieldWrap">
+        <div class="row" v-for="row in mineGrid.grid">
+          <div class="cell" v-for="cell in row">
+            <button class="cell">{{ cell.value }}</button>
           </div>
         </div>
       </div>
@@ -42,67 +53,38 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { MineGrid } from "@/models/Minefield.class";
+import { Cell } from "@/models/Cell.class";
 
 export default defineComponent({
   name: "MineSweeper",
   data() {
     return {
+      rowSlideValue: 14,
+      rowSlideId: "rowSlide",
+      colSlideValue: 18,
+      colSlideId: "colSlide",
+      mineSlideValue: 16,
+      mineSlideId: "mineSlide",
+      generated: false,
       firstClick: true,
       won: false,
       lost: false,
       redir: "Minesweeper game",
-      mineGrid: Array<
-        Array<{
-          revealed: boolean;
-          value: any;
-          flagged: boolean;
-          disabled: boolean;
-        }>
-      >([]),
+      mineGrid: new MineGrid(),
+
       timer: 0,
       timerInterval: null as any,
     };
   },
   computed: {
-    minesCount() {
-      if (!this.mineGrid.length) {
-        return 40;
-      }
-
-      let flaggedCount = 0;
-      for (let row = 0; row < this.mineGrid.length; row++) {
-        for (let col = 0; col < this.mineGrid[row].length; col++) {
-          if (this.mineGrid[row][col].flagged) {
-            flaggedCount++;
-          }
-        }
-      }
-
-      return 40 - flaggedCount;
-    },
+    minesCount() {},
     winCond(): boolean {
       let nonMineRevealedCount = 0;
-      for (let row = 0; row < this.mineGrid.length; row++) {
-        for (let col = 0; col < this.mineGrid[row].length; col++) {
-          if (
-            this.mineGrid[row][col].value !== "x" &&
-            this.mineGrid[row][col].revealed
-          ) {
-            nonMineRevealedCount++;
-          }
-        }
-      }
-      return nonMineRevealedCount === 212 && !this.lossCond;
+      return true;
     },
     lossCond(): boolean {
-      for (let row = 0; row < this.mineGrid.length; row++) {
-        for (let col = 0; col < this.mineGrid[row].length; col++) {
-          if (!this.mineGrid[row][col].revealed) {
-            return false;
-          }
-        }
-      }
-      return true;
+      return false;
     },
     timeElapsed(): string {
       const minutes = Math.floor(this.timer / 60);
@@ -120,125 +102,12 @@ export default defineComponent({
     mineGen() {
       this.won = false;
       this.lost = false;
-      this.fieldGen();
-      this.placeMines();
-      for (let row = 0; row < this.mineGrid.length; row++) {
-        for (let column = 0; column < this.mineGrid[row].length; column++) {
-          if (
-            this.mineGrid[row][column].value !== "x" &&
-            this.calcAdj(row, column) !== 0
-          ) {
-            this.mineGrid[row][column].value = this.calcAdj(row, column);
-          }
-        }
-      }
+
       this.firstClick = true;
       clearInterval(this.timerInterval);
       this.timer = 0;
-      return this.mineGrid;
     },
-    fieldGen() {
-      this.mineGrid = Array.from({ length: 14 }, () =>
-        Array.from({ length: 18 }, () => ({
-          revealed: false,
-          value: "",
-          flagged: false,
-          disabled: false,
-        }))
-      );
-    },
-    placeMines() {
-      let minesPlaced = 0;
-      while (minesPlaced < 40) {
-        const randRow = Math.floor(Math.random() * 14);
-        const randCol = Math.floor(Math.random() * 18);
-        if (this.mineGrid[randRow][randCol].value !== "x") {
-          this.mineGrid[randRow][randCol].value = "x";
-          minesPlaced++;
-        }
-      }
-    },
-    calcAdj(r: number, c: number) {
-      let count = 0;
-      for (let i = -1; i <= 1; i++) {
-        for (let j = -1; j <= 1; j++) {
-          const newRow = r + i;
-          const newCol = c + j;
 
-          if (
-            newRow >= 0 &&
-            newRow < 14 &&
-            newCol >= 0 &&
-            newCol < 18 &&
-            this.mineGrid[newRow][newCol].value === "x"
-          ) {
-            count++;
-          }
-        }
-      }
-      return count;
-    },
-    reveal(r: number, c: number) {
-      const cell = this.mineGrid[r][c];
-      if (this.firstClick) {
-        this.startTimer();
-        this.firstClick = false;
-      }
-      if (!cell.flagged) {
-        if (cell.value === "x") {
-          this.revealAllMines();
-        } else if (cell.value === "") {
-          this.revealAdjacent(r, c);
-        } else {
-          cell.revealed = true;
-          cell.disabled = true;
-        }
-      }
-      if (this.winCond) {
-        this.won = true;
-        clearInterval(this.timerInterval);
-      }
-      if (this.lossCond) {
-        this.lost = true;
-        clearInterval(this.timerInterval);
-      }
-    },
-    revealAllMines() {
-      this.mineGrid.forEach((row) =>
-        row.forEach((cell) => {
-          (cell.revealed = true), (cell.disabled = true);
-        })
-      );
-    },
-    revealAdjacent(r: number, c: number) {
-      const cell = this.mineGrid[r][c];
-      if (!cell.revealed) {
-        if (cell.value === "") {
-          cell.revealed = true;
-          cell.disabled = true;
-          for (let i = -1; i <= 1; i++) {
-            for (let j = -1; j <= 1; j++) {
-              const newRow = r + i;
-              const newCol = c + j;
-              if (
-                newRow >= 0 &&
-                newRow < this.mineGrid.length &&
-                newCol >= 0 &&
-                newCol < this.mineGrid[0].length
-              ) {
-                this.revealAdjacent(newRow, newCol);
-              }
-            }
-          }
-        } else {
-          cell.revealed = true;
-          cell.disabled = true;
-        }
-      }
-    },
-    flag(r: number, c: number) {
-      this.mineGrid[r][c].flagged = !this.mineGrid[r][c].flagged;
-    },
     getNumberColor(value: number) {
       switch (value) {
         case 1:
@@ -291,6 +160,15 @@ div.mineGrid {
   margin-right: 10px;
   margin-bottom: 10px;
 }
+.inputSlide {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+input {
+  margin-bottom: 10px;
+}
+
 .fieldWrap {
   width: 360px;
   border: 2px solid #343434;
