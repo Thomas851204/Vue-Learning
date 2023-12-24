@@ -8,7 +8,7 @@ export class MineGrid {
   allRevealed: boolean = false;
   grid: Cell[][];
 
-  constructor(mines: number = 40, rows: number = 14, columns: number = 18) {
+  constructor(mines: number = 41, rows: number = 14, columns: number = 18) {
     this.mines = mines;
     this.rows = rows;
     this.columns = columns;

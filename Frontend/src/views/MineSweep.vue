@@ -40,7 +40,14 @@
       </button>
     </div>
     <div class="mineGrid">
-      <div class="fieldWrap">
+      <div class="nav">
+        <div>Mines: {{ mineGrid.mines }}</div>
+        <div>Mines: {{ mineGrid.mines }}</div>
+      </div>
+      <div
+        class="fieldWrap"
+        :style="{ width: fieldWrapWidth, height: fieldWrapHeight }"
+      >
         <div class="row" v-for="row in mineGrid.grid">
           <div class="cell" v-for="cell in row">
             <button class="cell">{{ cell.value }}</button>
@@ -54,7 +61,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { MineGrid } from "@/models/Minefield.class";
-import { Cell } from "@/models/Cell.class";
 
 export default defineComponent({
   name: "MineSweeper",
@@ -90,6 +96,13 @@ export default defineComponent({
       const minutes = Math.floor(this.timer / 60);
       const seconds = this.timer % 60;
       return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    },
+    fieldWrapWidth(this: InstanceType<typeof MineGrid>) {
+      console.log(`${this.columns * 20}px`);
+      return `${this.columns * 20}px`;
+    },
+    fieldWrapHeight(this: InstanceType<typeof MineGrid>) {
+      return `${this.rows * 20}px`;
     },
   },
   methods: {
@@ -147,31 +160,28 @@ div.mineGrid {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 400px;
-  height: 400px;
   flex-direction: column;
+  width: fit-content;
   margin: 0 auto;
 }
 
 .nav {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
-  max-width: 360px;
-  margin-right: 10px;
-  margin-bottom: 10px;
+  width: 100%;
 }
 .inputSlide {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
 }
-input {
-  margin-bottom: 10px;
-}
 
 .fieldWrap {
-  width: 360px;
   border: 2px solid #343434;
+  align-items: center;
+  justify-content: center;
+  margin: 30px;
 }
 .row {
   display: flex;
