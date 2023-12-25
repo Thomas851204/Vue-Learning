@@ -77,7 +77,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { MineGrid, Cell } from "@/models/Minefield.class";
+import { MineGrid } from "@/models/Minefield.class";
 
 export default defineComponent({
   name: "MineSweeper",
