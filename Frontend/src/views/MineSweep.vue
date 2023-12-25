@@ -77,7 +77,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { MineGrid } from "@/models/Minefield.class";
+import { MineGrid, Cell } from "@/models/Minefield.class";
 
 export default defineComponent({
   name: "MineSweeper",
@@ -104,23 +104,23 @@ export default defineComponent({
       return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
     },
 
-    fieldWrapWidth(this: InstanceType<typeof MineGrid>) {
+    fieldWrapWidth(this: InstanceType<typeof MineGrid>): string {
       return `${this.columns * 20}px`;
     },
 
-    fieldWrapHeight(this: InstanceType<typeof MineGrid>) {
+    fieldWrapHeight(this: InstanceType<typeof MineGrid>): string {
       return `${this.rows * 20}px`;
     },
   },
   methods: {
-    startTimer() {
+    startTimer(): void {
       clearInterval(this.timerInterval);
       this.timerInterval = setInterval(() => {
         this.timer++;
       }, 1000);
     },
 
-    mineGen() {
+    mineGen(): void {
       this.generatedGrid = new MineGrid(
         this.mineSlideValue,
         this.rowSlideValue,
@@ -132,7 +132,7 @@ export default defineComponent({
       this.timer = 0;
     },
 
-    cellClick(r: number, c: number) {
+    cellClick(r: number, c: number): void {
       if (this.generatedGrid) {
         if (this.generatedGrid.firstClick) {
           this.startTimer();
@@ -149,7 +149,7 @@ export default defineComponent({
       }
     },
 
-    getNumberColor(value: number) {
+    getNumberColor(value: number): string {
       switch (value) {
         case 1:
           return "blue";

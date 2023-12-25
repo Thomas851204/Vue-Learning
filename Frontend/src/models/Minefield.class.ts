@@ -1,4 +1,9 @@
-import { Cell } from "./Cell.class";
+export interface Cell {
+  revealed: boolean;
+  value: any;
+  flagged: boolean;
+  disabled: boolean;
+}
 
 export class MineGrid {
   firstClick: boolean = true;
@@ -16,23 +21,30 @@ export class MineGrid {
     this.columns = columns;
     this.grid = this.initGrid();
   }
-  initGrid() {
-    return (this.grid = Array.from({ length: this.rows }, () =>
-      Array.from({ length: this.columns }, () => new Cell())
-    ));
+
+  initGrid(): Cell[][] {
+    return Array.from({ length: this.rows }, () =>
+      Array.from({ length: this.columns }, () => ({
+        revealed: false,
+        value: "",
+        flagged: false,
+        disabled: false,
+      }))
+    );
   }
 
-  placeMines() {
+  placeMines(): void {
     let minesPlaced = 0;
     while (minesPlaced < this.mines) {
       const randRow = Math.floor(Math.random() * this.rows);
       const randCol = Math.floor(Math.random() * this.columns);
-      if (this.grid[randRow][randCol].value !== "x") {
+      if (!this.grid[randRow][randCol].value) {
         this.grid[randRow][randCol].value = "x";
         minesPlaced++;
       }
     }
   }
+
   calcAdj(r: number, c: number): number {
     let count = 0;
     for (let i = -1; i <= 1; i++) {
@@ -53,22 +65,13 @@ export class MineGrid {
     }
     return count;
   }
-  reveal(r: number, c: number) {
-    let cell: Cell = this.grid[r][c];
+
+  reveal(r: number, c: number): void {
+    const cell = this.grid[r][c];
     if (this.firstClick) {
       this.firstClick = false;
       this.placeMines();
-      for (let rows = 0; rows < this.rows; rows++) {
-        for (let columns = 0; columns < this.columns; columns++) {
-          if (
-            this.grid[rows][columns].value !== "x" &&
-            this.calcAdj(rows, columns) !== 0
-          ) {
-            this.grid[rows][columns].value = this.calcAdj(rows, columns);
-          }
-        }
-      }
-      //TODO: first click cannot be a mine. If it would be, place the mine somewhere else and recalc values.
+      this.initValues();
     }
     if (!cell.flagged) {
       if (cell.value === "x") {
@@ -77,65 +80,83 @@ export class MineGrid {
         this.revealAdjacent(r, c);
       }
     }
+    //TODO: first click cannot be a mine. If it would be, place the mine somewhere else and recalc values.
+    this.checkGameStatus();
+  }
+
+  initValues(): void {
+    for (let rows = 0; rows < this.rows; rows++) {
+      for (let columns = 0; columns < this.columns; columns++) {
+        const currentCell = this.grid[rows][columns];
+        if (currentCell.value !== "x" && this.calcAdj(rows, columns) !== 0) {
+          currentCell.value = this.calcAdj(rows, columns);
+        }
+      }
+    }
+  }
+
+  checkGameStatus(): void {
     let revealCount = 0;
     for (let row = 0; row < this.rows; row++) {
       for (let col = 0; col < this.columns; col++) {
-        if (
-          this.grid[row][col].value !== "x" &&
-          this.grid[row][col].revealed === true
-        ) {
+        const currentCell = this.grid[row][col];
+        if (!currentCell.value && currentCell.revealed) {
           revealCount++;
         }
       }
     }
     if (
       revealCount === this.rows * this.columns - this.mines &&
-      this.allRevealed === false
+      !this.allRevealed
     ) {
       this.allNonMineRevealed = true;
     }
   }
-  revealAllMines() {
+
+  revealAllMines(): void {
     this.grid.forEach((row) => {
-      row.forEach((cell: Cell) => {
-        (cell.revealed = true), (cell.disabled = true);
+      row.forEach((cell) => {
+        cell.revealed = true;
+        cell.disabled = true;
       });
     });
     this.allRevealed = true;
   }
-  revealAdjacent(r: number, c: number) {
-    let cell = this.grid[r][c];
+
+  revealAdjacent(r: number, c: number): void {
+    const cell = this.grid[r][c];
     if (!cell.revealed) {
       if (cell.value === "") {
         cell.revealed = true;
         cell.disabled = true;
-        for (let i = -1; i <= 1; i++) {
-          for (let j = -1; j <= 1; j++) {
-            const newRow = r + i;
-            const newCol = c + j;
-            if (
-              newRow >= 0 &&
-              newRow < this.grid.length &&
-              newCol >= 0 &&
-              newCol < this.grid[0].length
-            ) {
-              this.revealAdjacent(newRow, newCol);
-            }
-          }
-        }
+        this.revealAdjacentCells(r, c);
       } else {
         cell.revealed = true;
         cell.disabled = true;
       }
     }
   }
-  flag(r: number, c: number) {
-    if (this.grid[r][c].flagged) {
-      this.grid[r][c].flagged = false;
-      this.flagged--;
-    } else {
-      this.grid[r][c].flagged = true;
-      this.flagged++;
+
+  revealAdjacentCells(r: number, c: number): void {
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        const newRow = r + i;
+        const newCol = c + j;
+        if (
+          newRow >= 0 &&
+          newRow < this.grid.length &&
+          newCol >= 0 &&
+          newCol < this.grid[0].length
+        ) {
+          this.revealAdjacent(newRow, newCol);
+        }
+      }
     }
+  }
+
+  flag(r: number, c: number): void {
+    const currentCell = this.grid[r][c];
+    currentCell.flagged = !currentCell.flagged;
+    this.flagged += currentCell.flagged ? 1 : -1;
   }
 }
