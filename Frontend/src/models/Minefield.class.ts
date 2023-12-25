@@ -108,7 +108,7 @@ export class MineGrid {
     for (let row = 0; row < this.rows; row++) {
       for (let col = 0; col < this.columns; col++) {
         const currentCell = this.grid[row][col];
-        if (!currentCell.value && currentCell.revealed) {
+        if (currentCell.revealed) {
           revealCount++;
         }
       }
