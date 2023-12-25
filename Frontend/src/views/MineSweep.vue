@@ -30,27 +30,44 @@
         v-model="mineSlideValue"
         class="slider"
       />
-      <button
-        class="generate"
-        @click="
-          mineGrid.updateBasics(mineSlideValue, rowSlideValue, colSlideValue)
-        "
-      >
-        Generate field!
-      </button>
+      <button class="generate" @click="mineGen()">Generate field!</button>
+      <button class="clear" @click="generatedGrid = null">Clear field</button>
     </div>
-    <div class="mineGrid">
+    <div v-if="generatedGrid !== null" class="mineGrid">
       <div class="nav">
-        <div>Mines: {{ mineGrid.mines }}</div>
-        <div>Mines: {{ mineGrid.mines }}</div>
+        <div>Mines: {{ generatedGrid.mines - generatedGrid.flagged }}</div>
+        <div v-if="won">Congrats!</div>
+        <div v-if="lost">Try again!</div>
+        <div>Time: {{ timeElapsed }}</div>
       </div>
       <div
         class="fieldWrap"
         :style="{ width: fieldWrapWidth, height: fieldWrapHeight }"
       >
-        <div class="row" v-for="row in mineGrid.grid">
-          <div class="cell" v-for="cell in row">
-            <button class="cell">{{ cell.value }}</button>
+        <div
+          class="row"
+          v-for="(row, rowIndex) in generatedGrid.grid"
+          :key="rowIndex"
+        >
+          <div class="cell" v-for="(cell, cellIndex) in row" :key="cellIndex">
+            <button
+              class="cell"
+              @contextmenu.prevent
+              @click.left="cellClick(rowIndex, cellIndex)"
+              @click.right="generatedGrid.flag(rowIndex, cellIndex)"
+              :disabled="cell.disabled"
+              :class="{ 'disabled-style': cell.disabled }"
+              :style="{
+                color: cell.revealed ? getNumberColor(cell.value) : '#000000',
+                backgroundColor: cell.flagged
+                  ? 'red'
+                  : cell.revealed
+                  ? getNumberColor(cell.value)
+                  : '#979797',
+              }"
+            >
+              {{ cell.revealed ? cell.value : "" }}
+            </button>
           </div>
         </div>
       </div>
@@ -72,35 +89,25 @@ export default defineComponent({
       colSlideId: "colSlide",
       mineSlideValue: 16,
       mineSlideId: "mineSlide",
-      generated: false,
-      firstClick: true,
       won: false,
       lost: false,
       redir: "Minesweeper game",
-      mineGrid: new MineGrid(),
-
+      generatedGrid: null as null | MineGrid,
       timer: 0,
       timerInterval: null as any,
     };
   },
   computed: {
-    minesCount() {},
-    winCond(): boolean {
-      let nonMineRevealedCount = 0;
-      return true;
-    },
-    lossCond(): boolean {
-      return false;
-    },
     timeElapsed(): string {
       const minutes = Math.floor(this.timer / 60);
       const seconds = this.timer % 60;
       return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
     },
+
     fieldWrapWidth(this: InstanceType<typeof MineGrid>) {
-      console.log(`${this.columns * 20}px`);
       return `${this.columns * 20}px`;
     },
+
     fieldWrapHeight(this: InstanceType<typeof MineGrid>) {
       return `${this.rows * 20}px`;
     },
@@ -112,13 +119,34 @@ export default defineComponent({
         this.timer++;
       }, 1000);
     },
+
     mineGen() {
+      this.generatedGrid = new MineGrid(
+        this.mineSlideValue,
+        this.rowSlideValue,
+        this.colSlideValue
+      );
       this.won = false;
       this.lost = false;
-
-      this.firstClick = true;
       clearInterval(this.timerInterval);
       this.timer = 0;
+    },
+
+    cellClick(r: number, c: number) {
+      if (this.generatedGrid) {
+        if (this.generatedGrid.firstClick) {
+          this.startTimer();
+        }
+        this.generatedGrid.reveal(r, c);
+        if (this.generatedGrid.allRevealed) {
+          this.lost = true;
+          clearInterval(this.timerInterval);
+        }
+        if (this.generatedGrid.allNonMineRevealed) {
+          this.won = true;
+          clearInterval(this.timerInterval);
+        }
+      }
     },
 
     getNumberColor(value: number) {
@@ -152,9 +180,11 @@ export default defineComponent({
   height: 100vh;
   margin-left: 10px;
 }
+
 button {
   display: block;
 }
+
 div.mineGrid {
   border: 2px solid black;
   display: flex;
@@ -183,6 +213,7 @@ div.mineGrid {
   justify-content: center;
   margin: 30px;
 }
+
 .row {
   display: flex;
   flex-direction: row;
@@ -191,6 +222,7 @@ div.mineGrid {
 .cell {
   display: inline-block;
 }
+
 button.cell {
   height: 20px;
   width: 20px;
@@ -201,6 +233,7 @@ button.cell {
 button:active {
   background-color: #4b4b4b !important;
 }
+
 button.cell:disabled {
   pointer-events: none;
   cursor: not-allowed;

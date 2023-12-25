@@ -6,10 +6,12 @@ export class MineGrid {
   rows: number;
   columns: number;
   allRevealed: boolean = false;
+  allNonMineRevealed: boolean = false;
   grid: Cell[][];
+  flagged: number = 0;
 
   constructor(mines: number = 41, rows: number = 14, columns: number = 18) {
-    this.mines = mines;
+    this.mines = Math.ceil((rows * columns * mines) / 100);
     this.rows = rows;
     this.columns = columns;
     this.grid = this.initGrid();
@@ -19,17 +21,12 @@ export class MineGrid {
       Array.from({ length: this.columns }, () => new Cell())
     ));
   }
-  updateBasics(m: number, r: number, c: number) {
-    this.mines = Math.ceil((r * c * m) / 100);
-    this.rows = r;
-    this.columns = c;
-    this.initGrid();
-  }
+
   placeMines() {
     let minesPlaced = 0;
     while (minesPlaced < this.mines) {
-      const randRow = Math.floor(Math.random() * 14);
-      const randCol = Math.floor(Math.random() * 18);
+      const randRow = Math.floor(Math.random() * this.rows);
+      const randCol = Math.floor(Math.random() * this.columns);
       if (this.grid[randRow][randCol].value !== "x") {
         this.grid[randRow][randCol].value = "x";
         minesPlaced++;
@@ -59,24 +56,52 @@ export class MineGrid {
   reveal(r: number, c: number) {
     let cell: Cell = this.grid[r][c];
     if (this.firstClick) {
+      this.firstClick = false;
+      this.placeMines();
+      for (let rows = 0; rows < this.rows; rows++) {
+        for (let columns = 0; columns < this.columns; columns++) {
+          if (
+            this.grid[rows][columns].value !== "x" &&
+            this.calcAdj(rows, columns) !== 0
+          ) {
+            this.grid[rows][columns].value = this.calcAdj(rows, columns);
+          }
+        }
+      }
+      //TODO: first click cannot be a mine. If it would be, place the mine somewhere else and recalc values.
     }
     if (!cell.flagged) {
       if (cell.value === "x") {
         this.revealAllMines();
-      } else if (cell.value === "") {
-        this.revealAdjacent(r, c);
       } else {
-        cell.revealed = true;
-        cell.disabled = true;
+        this.revealAdjacent(r, c);
       }
+    }
+    let revealCount = 0;
+    for (let row = 0; row < this.rows; row++) {
+      for (let col = 0; col < this.columns; col++) {
+        if (
+          this.grid[row][col].value !== "x" &&
+          this.grid[row][col].revealed === true
+        ) {
+          revealCount++;
+        }
+      }
+    }
+    if (
+      revealCount === this.rows * this.columns - this.mines &&
+      this.allRevealed === false
+    ) {
+      this.allNonMineRevealed = true;
     }
   }
   revealAllMines() {
     this.grid.forEach((row) => {
       row.forEach((cell: Cell) => {
-        cell.revealed, cell.disabled;
+        (cell.revealed = true), (cell.disabled = true);
       });
     });
+    this.allRevealed = true;
   }
   revealAdjacent(r: number, c: number) {
     let cell = this.grid[r][c];
@@ -105,6 +130,12 @@ export class MineGrid {
     }
   }
   flag(r: number, c: number) {
-    this.grid[r][c].flagged = !this.grid[r][c].flagged;
+    if (this.grid[r][c].flagged) {
+      this.grid[r][c].flagged = false;
+      this.flagged--;
+    } else {
+      this.grid[r][c].flagged = true;
+      this.flagged++;
+    }
   }
 }
