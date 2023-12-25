@@ -34,7 +34,9 @@ export class MineGrid {
   }
 
   placeMines(): void {
-    let minesPlaced = 0;
+    let minesPlaced = this.grid
+      .flat()
+      .filter((val) => val.value === "x").length;
     while (minesPlaced < this.mines) {
       const randRow = Math.floor(Math.random() * this.rows);
       const randCol = Math.floor(Math.random() * this.columns);
@@ -67,10 +69,16 @@ export class MineGrid {
   }
 
   reveal(r: number, c: number): void {
-    const cell = this.grid[r][c];
-    if (this.firstClick) {
-      this.firstClick = false;
+    const cell: Cell = this.grid[r][c];
+    if (this.firstClick === true) {
       this.placeMines();
+      if (cell.value === "x") {
+        while (cell.value === "x") {
+          cell.value = "";
+          this.placeMines();
+        }
+      }
+      this.firstClick = false;
       this.initValues();
     }
     if (!cell.flagged) {
@@ -80,7 +88,7 @@ export class MineGrid {
         this.revealAdjacent(r, c);
       }
     }
-    //TODO: first click cannot be a mine. If it would be, place the mine somewhere else and recalc values.
+
     this.checkGameStatus();
   }
 

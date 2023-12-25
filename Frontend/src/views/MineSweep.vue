@@ -205,6 +205,8 @@ div.mineGrid {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+  justify-items: center;
+  width: 30%;
 }
 
 .fieldWrap {
