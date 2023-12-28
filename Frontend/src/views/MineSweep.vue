@@ -221,9 +221,6 @@ div.mineGrid {
   flex-direction: row;
   height: 20px;
 }
-.cell {
-  display: inline-block;
-}
 
 button.cell {
   height: 20px;
