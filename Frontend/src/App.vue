@@ -20,7 +20,7 @@
     </div>
     <div class="userOps">
       <div class="logRes">Login</div>
-      <div class="logRes">Register</div>
+      <router-link to="/register" class="logRes">Register</router-link>
     </div>
   </div>
   <router-view />
@@ -95,6 +95,9 @@ export default defineComponent({
 }
 .logRes {
   margin: 10px;
+  background-color: black;
+  color: white;
+  text-decoration: none;
 }
 .sections {
   display: flex;
