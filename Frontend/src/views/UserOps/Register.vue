@@ -55,7 +55,7 @@ export default defineComponent({
       email: "",
       password: "",
     });
-
+    //TODO: if pattern does not match, create appropriate error message
     function pwPattern(value: string): boolean {
       const pat =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -92,6 +92,7 @@ export default defineComponent({
   height: 100vh;
   margin-left: 10px;
 }
+/* TOFIX: cardWrap not centered, not wide enough, input fields wider than cardwrap */
 .cardWrap {
   display: flex;
   flex-direction: column;
