@@ -45,10 +45,7 @@
           <div v-if="lost">Try again!</div>
           <div>Time: {{ timeElapsed }}</div>
         </div>
-        <div
-          class="fieldWrap"
-          :style="{ width: fieldWrapWidth, height: fieldWrapHeight }"
-        >
+        <div class="fieldWrap">
           <div
             class="row"
             v-for="(row, rowIndex) in generatedGrid.grid"
@@ -109,14 +106,6 @@ export default defineComponent({
       const seconds = this.timer % 60;
       return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
     },
-
-    fieldWrapWidth(this: InstanceType<typeof MineGrid>): string {
-      return `${this.columns * 20}px`;
-    },
-
-    fieldWrapHeight(this: InstanceType<typeof MineGrid>): string {
-      return `${this.rows * 20}px`;
-    },
   },
   methods: {
     startTimer(): void {
@@ -155,7 +144,7 @@ export default defineComponent({
       }
     },
 
-    getNumberColor(value: number): string {
+    getNumberColor(value: number | string): string {
       switch (value) {
         case 1:
           return "blue";
@@ -173,6 +162,8 @@ export default defineComponent({
           return "purple";
         case 8:
           return "darkgrey";
+        case "x":
+          return "black";
         default:
           return "#979797";
       }
@@ -183,15 +174,52 @@ export default defineComponent({
 
 <style scoped>
 .body {
-  height: 90vh;
-  margin-left: 10px;
+  height: 95dvh;
+  background: linear-gradient(-45deg, #692612, #860b3a, #092499, #0f965e);
+  background-size: 400% 400%;
+  animation: gradient 25s ease infinite;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+h1 {
+  margin: 0;
 }
 #main {
+  margin-left: 2.5%;
   position: relative;
   display: flex;
   justify-content: center;
 }
+.optwrap {
+  position: absolute;
+  left: 0;
+  width: 25vw;
+}
 
+.inputSlide {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  justify-items: center;
+  width: 80%;
+  font-size: 1.5vw;
+}
+
+.inputSlide button {
+  display: block;
+  width: 60%;
+  margin-top: 5%;
+  font-size: 1vw;
+}
 div.mineGrid {
   border: 2px solid black;
   display: flex;
@@ -208,48 +236,42 @@ div.mineGrid {
   justify-content: space-between;
   width: 100%;
 }
-.inputSlide {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-  justify-items: center;
-  width: 80%;
-}
-
-.inputSlide button {
-  display: block;
-  width: 30%;
-  margin-top: 5%;
-}
 .fieldWrap {
   border: 2px solid #343434;
   align-items: center;
   justify-content: center;
-  margin: 30px;
-}
-.optwrap {
-  position: absolute;
-  left: 0;
-  width: 25vw;
+  margin: 1dvw;
 }
 .row {
   display: flex;
   flex-direction: row;
-  height: 20px;
+  height: 2vh;
+  min-height: 12px;
 }
-
+div.cell {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+div.cell,
 button.cell {
-  height: 20px;
-  width: 20px;
+  height: 2vh;
+  width: 2vh;
+  min-width: 12px;
+  min-height: 12px;
+}
+button.cell {
   border-radius: 0;
   border: 1px solid #343434;
   background-color: #979797;
+  padding: 0;
 }
-button:active {
+button.cell:active {
   background-color: #4b4b4b !important;
 }
 
 button.cell:disabled {
+  padding: 0;
   pointer-events: none;
   cursor: not-allowed;
   color: black;
