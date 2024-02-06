@@ -1,0 +1,118 @@
+Date : 2024-01-12 22:52:41
+Directory : c:\Users\Tom\greenfox\Vue-Spring-Learning
+Total : 52 files,  29509 codes, 74 comments, 177 blanks, all 29760 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          9 |     27,974 |          0 |          8 |     27,982 |
+| Vue                |         12 |        864 |         15 |         60 |        939 |
+| TypeScript         |         18 |        464 |          1 |         63 |        528 |
+| Markdown           |          3 |         76 |          2 |         29 |        107 |
+| JavaScript         |          7 |         60 |         55 |         14 |        129 |
+| JSON with Comments |          2 |         51 |          0 |          2 |         53 |
+| HTML               |          1 |         20 |          1 |          1 |         22 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                      | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                         |         52 |     29,509 |         74 |        177 |     29,760 |
+| . (Files)                                                                                                 |          1 |          2 |          0 |          1 |          3 |
+| backend                                                                                                   |         20 |      9,871 |          2 |         65 |      9,938 |
+| backend (Files)                                                                                           |          8 |      9,632 |          2 |         27 |      9,661 |
+| backend\src                                                                                               |         10 |        210 |          0 |         32 |        242 |
+| backend\src (Files)                                                                                       |          2 |         18 |          0 |          4 |         22 |
+| backend\src\database                                                                                      |          4 |         77 |          0 |         15 |         92 |
+| backend\src\database (Files)                                                                              |          1 |         17 |          0 |          4 |         21 |
+| backend\src\database\entities                                                                             |          2 |         20 |          0 |          8 |         28 |
+| backend\src\database\migrations                                                                           |          1 |         40 |          0 |          3 |         43 |
+| backend\src\modules                                                                                       |          4 |        115 |          0 |         13 |        128 |
+| backend\src\modules\users                                                                                 |          4 |        115 |          0 |         13 |        128 |
+| backend\src\modules\users (Files)                                                                         |          3 |        110 |          0 |         12 |        122 |
+| backend\src\modules\users\models                                                                          |          1 |          5 |          0 |          1 |          6 |
+| backend\test                                                                                              |          2 |         29 |          0 |          6 |         35 |
+| frontend                                                                                                  |         31 |     19,636 |         72 |        111 |     19,819 |
+| frontend (Files)                                                                                          |          7 |     18,502 |          0 |         13 |     18,515 |
+| frontend\public                                                                                           |          1 |         20 |          1 |          1 |         22 |
+| frontend\src                                                                                              |         18 |      1,087 |         16 |         84 |      1,187 |
+| frontend\src (Files)                                                                                      |          4 |        117 |          1 |          7 |        125 |
+| frontend\src\components                                                                                   |          1 |         14 |          0 |          2 |         16 |
+| frontend\src\models                                                                                       |          2 |        161 |          0 |         16 |        177 |
+| frontend\src\router                                                                                       |          1 |         50 |          0 |          4 |         54 |
+| frontend\src\views                                                                                        |         10 |        745 |         15 |         55 |        815 |
+| frontend\src\views (Files)                                                                                |          2 |        268 |          0 |         19 |        287 |
+| frontend\src\views\Tests                                                                                  |          6 |        360 |         13 |         27 |        400 |
+| frontend\src\views\Tests (Files)                                                                          |          2 |        134 |          0 |          8 |        142 |
+| frontend\src\views\Tests\HTTPcall                                                                         |          4 |        226 |         13 |         19 |        258 |
+| frontend\src\views\Tests\HTTPcall (Files)                                                                 |          1 |         35 |          0 |          4 |         39 |
+| frontend\src\views\Tests\HTTPcall\child                                                                   |          3 |        191 |         13 |         15 |        219 |
+| frontend\src\views\UserOps                                                                                |          2 |        117 |          2 |          9 |        128 |
+| frontend\tests                                                                                            |          5 |         27 |         55 |         13 |         95 |
+| frontend\tests\e2e                                                                                        |          4 |         16 |         55 |         11 |         82 |
+| frontend\tests\e2e\plugins                                                                                |          1 |          9 |         12 |          5 |         26 |
+| frontend\tests\e2e\specs                                                                                  |          1 |          6 |          1 |          2 |          9 |
+| frontend\tests\e2e\support                                                                                |          2 |          1 |         42 |          4 |         47 |
+| frontend\tests\unit                                                                                       |          1 |         11 |          0 |          2 |         13 |
++-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                  | language           | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\README.md                                                       | Markdown           |          2 |          0 |          1 |          3 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\.eslintrc.js                                            | JavaScript         |         25 |          0 |          1 |         26 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\.prettierrc                                             | JSON               |          4 |          0 |          0 |          4 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\README.md                                               | Markdown           |         51 |          2 |         21 |         74 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\nest-cli.json                                           | JSON               |          8 |          0 |          1 |          9 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\package-lock.json                                       | JSON               |      9,441 |          0 |          1 |      9,442 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\package.json                                            | JSON               |         78 |          0 |          1 |         79 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\src\app.module.ts                                       | TypeScript         |         10 |          0 |          2 |         12 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\src\database\entities\Test.entity.ts                    | TypeScript         |         10 |          0 |          4 |         14 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\src\database\entities\Users.entity.ts                   | TypeScript         |         10 |          0 |          4 |         14 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\src\database\migrations\1700317746886-firstMigration.ts | TypeScript         |         40 |          0 |          3 |         43 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\src\database\typeorm-cli.config.ts                      | TypeScript         |         17 |          0 |          4 |         21 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\src\main.ts                                             | TypeScript         |          8 |          0 |          2 |         10 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\src\modules\users\models\UserDto.ts                     | TypeScript         |          5 |          0 |          1 |          6 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\src\modules\users\users.controller.ts                   | TypeScript         |         41 |          0 |          5 |         46 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\src\modules\users\users.module.ts                       | TypeScript         |         11 |          0 |          2 |         13 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\src\modules\users\users.service.ts                      | TypeScript         |         58 |          0 |          5 |         63 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\test\app.e2e-spec.ts                                    | TypeScript         |         20 |          0 |          5 |         25 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\test\jest-e2e.json                                      | JSON               |          9 |          0 |          1 |         10 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\tsconfig.build.json                                     | JSON               |          4 |          0 |          1 |          5 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\backend\tsconfig.json                                           | JSON with Comments |         21 |          0 |          1 |         22 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\README.md                                              | Markdown           |         23 |          0 |          7 |         30 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\babel.config.js                                        | JavaScript         |          5 |          0 |          1 |          6 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\cypress.json                                           | JSON               |          3 |          0 |          1 |          4 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\package-lock.json                                      | JSON               |     18,383 |          0 |          1 |     18,384 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\package.json                                           | JSON               |         44 |          0 |          1 |         45 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\public\index.html                                      | HTML               |         20 |          1 |          1 |         22 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\App.vue                                            | Vue                |        105 |          0 |          3 |        108 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\components\Test.vue                                | Vue                |         14 |          0 |          2 |         16 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\env.ts                                             | TypeScript         |          3 |          0 |          1 |          4 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\main.ts                                            | TypeScript         |          4 |          0 |          2 |          6 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\models\Minefield.class.ts                          | TypeScript         |        156 |          0 |         15 |        171 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\models\User.interface.ts                           | TypeScript         |          5 |          0 |          1 |          6 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\router\index.ts                                    | TypeScript         |         50 |          0 |          4 |         54 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\shims-vue.d.ts                                     | TypeScript         |          5 |          1 |          1 |          7 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\views\Home.vue                                     | Vue                |         40 |          0 |          3 |         43 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\views\MineSweep.vue                                | Vue                |        228 |          0 |         16 |        244 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\views\Tests\FormTest.vue                           | Vue                |        109 |          0 |          5 |        114 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\views\Tests\HTTPcall\HTTPcall.vue                  | Vue                |         35 |          0 |          4 |         39 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\views\Tests\HTTPcall\child\HTTPGet.vue             | Vue                |         49 |          0 |          7 |         56 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\views\Tests\HTTPcall\child\HTTPPatch.vue           | Vue                |         80 |          0 |          4 |         84 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\views\Tests\HTTPcall\child\HTTPPost.vue            | Vue                |         62 |         13 |          4 |         79 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\views\Tests\Redirected.vue                         | Vue                |         25 |          0 |          3 |         28 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\views\UserOps\Login.vue                            | Vue                |         10 |          0 |          3 |         13 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\src\views\UserOps\Register.vue                         | Vue                |        107 |          2 |          6 |        115 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\tests\e2e\plugins\index.js                             | JavaScript         |          9 |         12 |          5 |         26 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\tests\e2e\specs\test.js                                | JavaScript         |          6 |          1 |          2 |          9 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\tests\e2e\support\commands.js                          | JavaScript         |          0 |         25 |          1 |         26 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\tests\e2e\support\index.js                             | JavaScript         |          1 |         17 |          3 |         21 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\tests\unit\example.spec.ts                             | TypeScript         |         11 |          0 |          2 |         13 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\tsconfig.json                                          | JSON with Comments |         30 |          0 |          1 |         31 |
+| c:\Users\Tom\greenfox\Vue-Spring-Learning\frontend\vue.config.js                                          | JavaScript         |         14 |          0 |          1 |         15 |
+| Total                                                                                                     |                    |     29,509 |         74 |        177 |     29,760 |
++-----------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
