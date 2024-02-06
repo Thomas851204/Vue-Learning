@@ -1,73 +1,79 @@
 <template>
   <div class="body">
     <h1>{{ redir }}</h1>
-    <p>Options:</p>
-    <div class="inputSlide">
-      <label :for="rowSlideId">Rows: {{ rowSlideValue }}</label>
-      <input
-        :id="rowSlideId"
-        type="range"
-        min="5"
-        max="35"
-        class="slider"
-        v-model="rowSlideValue"
-      />
-      <label :for="colSlideId">Columns: {{ colSlideValue }}</label>
-      <input
-        :id="colSlideId"
-        type="range"
-        min="5"
-        max="35"
-        v-model="colSlideValue"
-        class="slider"
-      />
-      <label :for="mineSlideId">Mines(%): {{ mineSlideValue }}</label>
-      <input
-        :id="mineSlideId"
-        type="range"
-        min="5"
-        max="35"
-        v-model="mineSlideValue"
-        class="slider"
-      />
-      <button class="generate" @click="mineGen()">Generate field!</button>
-      <button class="clear" @click="generatedGrid = null">Clear field</button>
-    </div>
-    <div v-if="generatedGrid !== null" class="mineGrid">
-      <div class="nav">
-        <div>Mines: {{ generatedGrid.mines - generatedGrid.flagged }}</div>
-        <div v-if="won">Congrats!</div>
-        <div v-if="lost">Try again!</div>
-        <div>Time: {{ timeElapsed }}</div>
+    <div id="main">
+      <div class="optwrap">
+        <p>Options:</p>
+        <div class="inputSlide">
+          <label :for="rowSlideId">Rows: {{ rowSlideValue }}</label>
+          <input
+            :id="rowSlideId"
+            type="range"
+            min="5"
+            max="35"
+            class="slider"
+            v-model="rowSlideValue"
+          />
+          <label :for="colSlideId">Columns: {{ colSlideValue }}</label>
+          <input
+            :id="colSlideId"
+            type="range"
+            min="5"
+            max="35"
+            v-model="colSlideValue"
+            class="slider"
+          />
+          <label :for="mineSlideId">Mines(%): {{ mineSlideValue }}</label>
+          <input
+            :id="mineSlideId"
+            type="range"
+            min="5"
+            max="35"
+            v-model="mineSlideValue"
+            class="slider"
+          />
+          <button class="generate" @click="mineGen()">Generate field!</button>
+          <button class="clear" @click="generatedGrid = null">
+            Clear field
+          </button>
+        </div>
       </div>
-      <div
-        class="fieldWrap"
-        :style="{ width: fieldWrapWidth, height: fieldWrapHeight }"
-      >
+      <div v-if="generatedGrid !== null" class="mineGrid">
+        <div class="nav">
+          <div>Mines: {{ generatedGrid.mines - generatedGrid.flagged }}</div>
+          <div v-if="won">Congrats!</div>
+          <div v-if="lost">Try again!</div>
+          <div>Time: {{ timeElapsed }}</div>
+        </div>
         <div
-          class="row"
-          v-for="(row, rowIndex) in generatedGrid.grid"
-          :key="rowIndex"
+          class="fieldWrap"
+          :style="{ width: fieldWrapWidth, height: fieldWrapHeight }"
         >
-          <div class="cell" v-for="(cell, cellIndex) in row" :key="cellIndex">
-            <button
-              class="cell"
-              @contextmenu.prevent
-              @click.left="cellClick(rowIndex, cellIndex)"
-              @click.right="generatedGrid.flag(rowIndex, cellIndex)"
-              :disabled="cell.disabled"
-              :class="{ 'disabled-style': cell.disabled }"
-              :style="{
-                color: cell.revealed ? getNumberColor(cell.value) : '#000000',
-                backgroundColor: cell.flagged
-                  ? 'red'
-                  : cell.revealed
-                  ? getNumberColor(cell.value)
-                  : '#979797',
-              }"
-            >
-              {{ cell.revealed ? cell.value : "" }}
-            </button>
+          <div
+            class="row"
+            v-for="(row, rowIndex) in generatedGrid.grid"
+            :key="rowIndex"
+          >
+            <div class="cell" v-for="(cell, cellIndex) in row" :key="cellIndex">
+              <button
+                class="cell"
+                @contextmenu.prevent
+                @click.left="cellClick(rowIndex, cellIndex)"
+                @click.right="generatedGrid.flag(rowIndex, cellIndex)"
+                :disabled="cell.disabled"
+                :class="{ 'disabled-style': cell.disabled }"
+                :style="{
+                  color: cell.revealed ? getNumberColor(cell.value) : '#000000',
+                  backgroundColor: cell.flagged
+                    ? 'red'
+                    : cell.revealed
+                    ? getNumberColor(cell.value)
+                    : '#979797',
+                }"
+              >
+                {{ cell.revealed ? cell.value : "" }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -177,12 +183,13 @@ export default defineComponent({
 
 <style scoped>
 .body {
-  height: 100vh;
+  height: 90vh;
   margin-left: 10px;
 }
-
-button {
-  display: block;
+#main {
+  position: relative;
+  display: flex;
+  justify-content: center;
 }
 
 div.mineGrid {
@@ -206,16 +213,25 @@ div.mineGrid {
   flex-direction: column;
   margin-bottom: 10px;
   justify-items: center;
-  width: 30%;
+  width: 80%;
 }
 
+.inputSlide button {
+  display: block;
+  width: 30%;
+  margin-top: 5%;
+}
 .fieldWrap {
   border: 2px solid #343434;
   align-items: center;
   justify-content: center;
   margin: 30px;
 }
-
+.optwrap {
+  position: absolute;
+  left: 0;
+  width: 25vw;
+}
 .row {
   display: flex;
   flex-direction: row;

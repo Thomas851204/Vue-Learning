@@ -56,7 +56,7 @@ export default defineComponent({
 }
 .nav {
   width: 100%;
-  height: 50px;
+  height: 5vh;
   background-color: black;
   display: flex;
   flex-direction: row;
