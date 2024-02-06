@@ -280,14 +280,39 @@ button.cell:disabled {
   background-color: rgb(187, 187, 187) !important;
 }
 
-@media screen and (max-width: 1050px) {
+@media screen and (max-aspect-ratio: 1.22/1) {
   #main {
+    position: relative;
     display: flex;
     flex-direction: column;
     margin: 0;
+    justify-content: center;
+    width: 100%;
+  }
+  p {
+    margin-top: 0;
   }
   .optwrap {
+    width: 100%;
     position: unset;
+    margin: 0;
+    margin-bottom: 2vh;
+  }
+  .inputSlide {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .buttonWrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  .buttonWrap button {
+    width: 20%;
+    margin-top: 1vh;
+    margin-left: 2vh;
   }
 }
 </style>
