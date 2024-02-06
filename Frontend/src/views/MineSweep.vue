@@ -32,6 +32,8 @@
             v-model="mineSlideValue"
             class="slider"
           />
+        </div>
+        <div class="buttonWrap">
           <button class="generate" @click="mineGen()">Generate field!</button>
           <button class="clear" @click="generatedGrid = null">
             Clear field
@@ -51,26 +53,26 @@
             v-for="(row, rowIndex) in generatedGrid.grid"
             :key="rowIndex"
           >
-            <div class="cell" v-for="(cell, cellIndex) in row" :key="cellIndex">
-              <button
-                class="cell"
-                @contextmenu.prevent
-                @click.left="cellClick(rowIndex, cellIndex)"
-                @click.right="generatedGrid.flag(rowIndex, cellIndex)"
-                :disabled="cell.disabled"
-                :class="{ 'disabled-style': cell.disabled }"
-                :style="{
-                  color: cell.revealed ? getNumberColor(cell.value) : '#000000',
-                  backgroundColor: cell.flagged
-                    ? 'red'
-                    : cell.revealed
-                    ? getNumberColor(cell.value)
-                    : '#979797',
-                }"
-              >
-                {{ cell.revealed ? cell.value : "" }}
-              </button>
-            </div>
+            <button
+              class="cell"
+              v-for="(cell, cellIndex) in row"
+              :key="cellIndex"
+              @contextmenu.prevent
+              @click.left="cellClick(rowIndex, cellIndex)"
+              @click.right="generatedGrid.flag(rowIndex, cellIndex)"
+              :disabled="cell.disabled"
+              :class="{ 'disabled-style': cell.disabled }"
+              :style="{
+                color: cell.revealed ? getNumberColor(cell.value) : '#000000',
+                backgroundColor: cell.flagged
+                  ? 'red'
+                  : cell.revealed
+                  ? getNumberColor(cell.value)
+                  : '#979797',
+              }"
+            >
+              {{ cell.revealed ? cell.value : "" }}
+            </button>
           </div>
         </div>
       </div>
@@ -194,7 +196,6 @@ h1 {
   margin: 0;
 }
 #main {
-  margin-left: 2.5%;
   position: relative;
   display: flex;
   justify-content: center;
@@ -203,6 +204,7 @@ h1 {
   position: absolute;
   left: 0;
   width: 25vw;
+  text-align: center;
 }
 
 .inputSlide {
@@ -210,11 +212,16 @@ h1 {
   flex-direction: column;
   margin-bottom: 10px;
   justify-items: center;
+  justify-content: center;
   width: 80%;
   font-size: 1.5vw;
 }
-
-.inputSlide button {
+.buttownWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.buttonWrap button {
   display: block;
   width: 60%;
   margin-top: 5%;
@@ -248,12 +255,7 @@ div.mineGrid {
   height: 2vh;
   min-height: 12px;
 }
-div.cell {
-  margin: 0;
-  padding: 0;
-  border: none;
-}
-div.cell,
+
 button.cell {
   height: 2vh;
   width: 2vh;
@@ -264,7 +266,6 @@ button.cell {
   border-radius: 0;
   border: 1px solid #343434;
   background-color: #979797;
-  padding: 0;
 }
 button.cell:active {
   background-color: #4b4b4b !important;
@@ -277,5 +278,16 @@ button.cell:disabled {
   color: black;
   border: 1px solid #5a5a5a;
   background-color: rgb(187, 187, 187) !important;
+}
+
+@media screen and (max-width: 1050px) {
+  #main {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+  .optwrap {
+    position: unset;
+  }
 }
 </style>
