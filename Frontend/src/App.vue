@@ -1,9 +1,14 @@
 <template>
   <div class="nav">
-    <router-link to="/" class="navIcon">Home</router-link>
-    <router-link to="/mine" class="navIcon">Minesweeper</router-link>
+    <RouterLink to="/" class="navIcon">Home</RouterLink>
+    <RouterLink to="/mine" class="navIcon">Minesweeper</RouterLink>
   </div>
-  <router-view />
+
+  <RouterView v-slot="{ Component }">
+    <Transition name="fade" mode="out-in">
+      <component :is="Component" />
+    </Transition>
+  </RouterView>
 </template>
 
 <script lang="ts">
@@ -18,13 +23,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 .nav {
   width: 100vw;
   height: 5vh;
@@ -42,5 +40,14 @@ export default defineComponent({
   padding-left: 20px;
   margin-bottom: 10px;
   font-size: 30px;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: 1500ms ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

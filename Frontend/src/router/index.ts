@@ -1,18 +1,16 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Home from "../views/Home.vue";
-import MineSweepVue from "@/views/MineSweep.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: () => import("../views/Home.vue"),
   },
 
   {
     path: "/mine",
     name: "MineSweeper",
-    component: MineSweepVue,
+    component: () => import("../views/MineSweep.vue"),
   },
 ];
 

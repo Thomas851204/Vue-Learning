@@ -1,5 +1,5 @@
 <template>
-  <div class="body">
+  <div class="body" :class="{ 'mine-sweep-animation': isActive }">
     <h1>{{ redir }}</h1>
     <div id="main">
       <div class="optwrap">
@@ -33,12 +33,12 @@
             class="slider"
           />
         </div>
-        <div class="buttonWrap">
+        <!-- <div class="buttonWrap">
           <button class="generate" @click="mineGen()">Generate field!</button>
           <button class="clear" @click="generatedGrid = null">
             Clear field
           </button>
-        </div>
+        </div> -->
       </div>
       <div v-if="generatedGrid !== null" class="mineGrid">
         <div class="nav">
@@ -100,6 +100,7 @@ export default defineComponent({
       generatedGrid: null as null | MineGrid,
       timer: 0,
       timerInterval: null as any,
+      isActive: true,
     };
   },
   computed: {
@@ -171,6 +172,9 @@ export default defineComponent({
       }
     },
   },
+  beforeRouteLeave() {
+    this.isActive = false;
+  },
 });
 </script>
 
@@ -179,6 +183,8 @@ export default defineComponent({
   height: 95dvh;
   background: linear-gradient(-45deg, #692612, #860b3a, #092499, #0f965e);
   background-size: 400% 400%;
+}
+.mine-sweep-animation {
   animation: gradient 25s ease infinite;
 }
 @keyframes gradient {
