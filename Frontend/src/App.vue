@@ -3,12 +3,13 @@
     <RouterLink to="/" class="navIcon">Home</RouterLink>
     <RouterLink to="/mine" class="navIcon">Minesweeper</RouterLink>
   </div>
-
-  <RouterView v-slot="{ Component }">
-    <Transition name="fade" mode="out-in">
-      <component :is="Component" />
-    </Transition>
-  </RouterView>
+  <div id="view">
+    <RouterView v-slot="{ Component }">
+      <Transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </Transition>
+    </RouterView>
+  </div>
 </template>
 
 <script lang="ts">
@@ -23,6 +24,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+#view {
+  background-color: black;
+}
 .nav {
   width: 100vw;
   height: 5vh;

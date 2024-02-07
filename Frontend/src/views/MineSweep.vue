@@ -1,9 +1,7 @@
 <template>
   <div class="body" :class="{ 'mine-sweep-animation': isActive }">
-    <h1>{{ redir }}</h1>
     <div id="main">
       <div class="optwrap">
-        <p>Options:</p>
         <div class="inputSlide">
           <label :for="rowSlideId">Rows: {{ rowSlideValue }}</label>
           <input
@@ -33,19 +31,19 @@
             class="slider"
           />
         </div>
-        <!-- <div class="buttonWrap">
+        <div class="buttonWrap">
           <button class="generate" @click="mineGen()">Generate field!</button>
           <button class="clear" @click="generatedGrid = null">
             Clear field
           </button>
-        </div> -->
+        </div>
       </div>
       <div v-if="generatedGrid !== null" class="mineGrid">
         <div class="nav">
-          <div>Mines: {{ generatedGrid.mines - generatedGrid.flagged }}</div>
-          <div v-if="won">Congrats!</div>
-          <div v-if="lost">Try again!</div>
-          <div>Time: {{ timeElapsed }}</div>
+          <p>Mines: {{ generatedGrid.mines - generatedGrid.flagged }}</p>
+          <p v-if="won">Congrats!</p>
+          <p v-if="lost">Try again!</p>
+          <p>Time: {{ timeElapsed }}</p>
         </div>
         <div class="fieldWrap">
           <div
@@ -96,7 +94,6 @@ export default defineComponent({
       mineSlideId: "mineSlide",
       won: false,
       lost: false,
-      redir: "Minesweeper game",
       generatedGrid: null as null | MineGrid,
       timer: 0,
       timerInterval: null as any,
@@ -198,43 +195,48 @@ export default defineComponent({
     background-position: 0% 50%;
   }
 }
-h1 {
-  margin: 0;
-}
+
 #main {
   position: relative;
   display: flex;
+  flex-direction: column;
+  margin: 0;
   justify-content: center;
-}
-.optwrap {
-  position: absolute;
-  left: 0;
-  width: 25vw;
-  text-align: center;
+  width: 100%;
 }
 
-.inputSlide {
+.optwrap {
   display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
   justify-items: center;
+  flex-direction: column;
+  width: 100%;
+  position: unset;
+  margin-top: 3vh;
+  margin-bottom: 2vh;
+}
+.inputSlide {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
-  width: 80%;
   font-size: 1.5vw;
 }
-.buttownWrap {
+label {
+  margin-left: 2vw;
+}
+.buttonWrap {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
 }
 .buttonWrap button {
-  display: block;
-  width: 60%;
-  margin-top: 5%;
-  font-size: 1vw;
+  width: 20%;
+  height: 4vh;
+  margin-top: 1vh;
+  margin-left: 2vh;
+  font-size: 2vh;
 }
 div.mineGrid {
-  border: 2px solid black;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -246,9 +248,15 @@ div.mineGrid {
 .nav {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
   width: 100%;
 }
+.nav * {
+  font-size: 2vh;
+  font-weight: 800;
+  margin: auto 2vw;
+}
+
 .fieldWrap {
   border: 2px solid #343434;
   align-items: center;
@@ -284,41 +292,5 @@ button.cell:disabled {
   color: black;
   border: 1px solid #5a5a5a;
   background-color: rgb(187, 187, 187) !important;
-}
-
-@media screen and (max-aspect-ratio: 1.22/1) {
-  #main {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    justify-content: center;
-    width: 100%;
-  }
-  p {
-    margin-top: 0;
-  }
-  .optwrap {
-    width: 100%;
-    position: unset;
-    margin: 0;
-    margin-bottom: 2vh;
-  }
-  .inputSlide {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-  }
-  .buttonWrap {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-  .buttonWrap button {
-    width: 20%;
-    margin-top: 1vh;
-    margin-left: 2vh;
-  }
 }
 </style>
