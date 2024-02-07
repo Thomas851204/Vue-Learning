@@ -1,27 +1,7 @@
 <template>
   <div class="nav">
-    <div class="sections">
-      <router-link to="/" class="navIcon">Home</router-link>
-      <div class="dropdown" @mouseleave="resetDropdown">
-        <div class="navIcon" @mouseenter="showDropdown">Tests</div>
-        <div class="contentWrap" v-if="selectedTest">
-          <router-link to="/redir" class="dd" @click="resetDropdown"
-            >Redirected</router-link
-          >
-          <router-link to="/http" class="dd" @click="resetDropdown"
-            >HTTP calls</router-link
-          >
-          <router-link to="/form" class="dd" @click="resetDropdown"
-            >Form tests</router-link
-          >
-        </div>
-      </div>
-      <router-link to="/mine" class="navIcon">Minesweeper</router-link>
-    </div>
-    <div class="userOps">
-      <div class="logRes">Login</div>
-      <router-link to="/register" class="logRes">Register</router-link>
-    </div>
+    <router-link to="/" class="navIcon">Home</router-link>
+    <router-link to="/mine" class="navIcon">Minesweeper</router-link>
   </div>
   <router-view />
 </template>
@@ -31,18 +11,9 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "App",
   data() {
-    return {
-      selectedTest: false,
-    };
+    return {};
   },
-  methods: {
-    showDropdown() {
-      this.selectedTest = true;
-    },
-    resetDropdown() {
-      this.selectedTest = false;
-    },
-  },
+  methods: {},
 });
 </script>
 
@@ -55,53 +26,21 @@ export default defineComponent({
   color: #2c3e50;
 }
 .nav {
-  width: 100%;
+  width: 100vw;
   height: 5vh;
   background-color: black;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
 }
 .navIcon {
-  display: flex;
   border: none;
   background-color: black;
   color: white;
   text-decoration: none;
   padding-left: 20px;
   margin-bottom: 10px;
-}
-.contentWrap {
-  position: absolute;
-  background-color: black;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  width: 80px;
-  align-items: center;
-}
-.dd {
-  font-size: smaller;
-  background-color: black;
-  color: white;
-  margin-bottom: 10px;
-}
-.userOps {
-  background-color: black;
-  color: white;
-  display: flex;
-  margin-bottom: 10px;
-}
-.logRes {
-  margin: 10px;
-  background-color: black;
-  color: white;
-  text-decoration: none;
-}
-.sections {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 30px;
 }
 </style>

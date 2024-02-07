@@ -1,10 +1,5 @@
 <template>
-  <div class="body">
-    <h1>{{ title }}</h1>
-    <input type="text" ref="name" />
-    <button @click="handleClick">Click me</button>
-    <Test v-if="testVisible" />
-  </div>
+  <div class="body"></div>
 </template>
 
 <script lang="ts">
@@ -16,27 +11,22 @@ export default defineComponent({
     Test,
   },
   data() {
-    return {
-      title: "My First Vue App :)",
-      testVisible: false,
-    };
+    return {};
   },
-  methods: {
-    handleClick() {
-      const nameRef = this.$refs.name as HTMLElement;
-      nameRef.classList.add("active");
-      nameRef.focus();
-      this.testVisible = !this.testVisible;
-    },
-  },
+  methods: {},
 });
 </script>
 
 <style scoped>
 .body {
-  padding-left: 10px;
-}
-h1 {
-  color: red;
+  width: 100vw;
+  height: 95vh;
+  background-color: #071983;
+  background-image: linear-gradient(
+    303deg,
+    #0c24a8 0%,
+    #150e75 46%,
+    #070735 100%
+  );
 }
 </style>
