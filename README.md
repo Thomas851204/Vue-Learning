@@ -1,2 +1,2 @@
 # Vue--Learning
-Small project for learning Vue.JS
+Small project for experimenting with Vue.JS
